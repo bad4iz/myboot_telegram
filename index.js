@@ -2,6 +2,10 @@
  * Created by bad4iz on 06.11.16.
  */
 var TelegramBot = require('node-telegram-bot-api'),
+
+
+    // открывает доступ к файловому хранилешю
+    fs = require('fs'),
     request = require('request'),
     Entities  = require('html-entities').XmlEntities,
     entities = new Entities(),
@@ -83,21 +87,38 @@ bot.onText(/\/love/, function (msg) {
     bot.sendMessage(chatId, 'Do you love me?', opts);
 });
 // Matches /анекдот
-bot.onText(/\/юмор/, function (msg) {
+bot.onText(/\/yumor/, function (msg) {
+
     var chatId = msg.chat.id;
-    url = 'http://www.umori.li/api/random?num=10';
+   /* 1 - Анекдот;
+    2 - Рассказы;
+    3 - Стишки;
+    4 - Афоризмы;
+    5 - Цитаты;
+    6 - Тосты;
+    8 - Статусы;
+    11 - Анекдот (+18);
+    12 - Рассказы (+18);
+    13 - Стишки (+18);
+    14 - Афоризмы (+18);
+    15 - Цитаты (+18);
+    16 - Тосты (+18);
+    18 - Статусы (+18);*/
+   var tema = '13';
+    url = ' http://rzhunemogu.ru/Rand.aspx?13' + tema;
 
     request(url, function (error, response, body) {
-        var data = JSON.parse(body);
+        // var data = JSON.parse(body);
         // var opts = {
         //     reply_to_message_id: msg.message_id,
         //     reply_markup: JSON.stringify(body)
         // };
         // bot.sendMessage(chatId, 'Do you love me?', opts);
 
-        bot.sendMessage(chatId, data[5].elementPureHtml, HTML);
-        console.log(data);
-        console.log('dddddddddddddddddddddddddddddddddddd');
+        // bot.sendMessage(chatId, data[5].elementPureHtml, {parse_mode: 'Markdown'});
+        bot.sendMessage(chatId, body);
+
+        console.log(body);
 
 
     })
